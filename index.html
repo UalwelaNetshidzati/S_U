@@ -52,6 +52,63 @@
 
 	</head>
 	<body>
+
+		<!-- Background Music Audio File -->
+<audio id="wedding-music" loop>
+    <source src="wedding-song.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Floating Music Button (Nude Theme) -->
+<div id="music-toggle" style="position: fixed; bottom: 20px; left: 20px; z-index: 999; background: #c49a7a; color: #fff; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0px 4px 15px rgba(0,0,0,0.2); transition: transform 0.3s;" onclick="toggleMusic()" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+    <span id="music-icon" style="font-size: 22px; line-height: 1;">🎵</span>
+</div>
+
+<!-- Welcome Pop-Up Overlay (Nude & Gold Theme) -->
+<div id="welcome-popup" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div style="background: rgba(255, 255, 255, 0.95); padding: 40px 30px; text-align: center; border-radius: 8px; max-width: 90%; width: 400px; box-shadow: 0px 10px 30px rgba(0,0,0,0.5); border: 2px solid #d4af37;">
+        <h3 style="font-family: 'Sacramento', Arial, serif; color: #c49a7a; font-size: 42px; margin-bottom: 10px; margin-top: 0;">Welcome!</h3>
+        <p style="color: #555; margin-bottom: 25px; font-size: 16px;">We are so excited to celebrate our special day with you.</p>
+        <button onclick="enterSite()" style="background: #c49a7a; color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-size: 16px; cursor: pointer; transition: 0.3s; width: 100%;">Click to Continue</button>
+    </div>
+</div>
+
+<!-- JavaScript to handle Pop-Up and Audio -->
+<script>
+    var weddingAudio = document.getElementById("wedding-music");
+    var musicIcon = document.getElementById("music-icon");
+    var welcomePopup = document.getElementById("welcome-popup");
+    var isPlaying = false;
+
+    // Disables scrolling while the pop-up is active
+    document.body.style.overflow = 'hidden';
+
+    function enterSite() {
+        // Hide the pop-up and restore scrolling
+        welcomePopup.style.display = 'none';
+        document.body.style.overflow = 'auto';
+
+        // Play the music immediately
+        weddingAudio.play().then(() => {
+            isPlaying = true;
+            musicIcon.innerHTML = "⏸️"; // Switch to pause icon
+        }).catch(error => {
+            console.log("Audio play failed:", error);
+        });
+    }
+
+    // Manual toggle for the floating button in the corner
+    function toggleMusic() {
+        if (isPlaying) {
+            weddingAudio.pause();
+            musicIcon.innerHTML = "🎵";
+            isPlaying = false;
+        } else {
+            weddingAudio.play();
+            musicIcon.innerHTML = "⏸️";
+            isPlaying = true;
+        }
+    }
+</script>
 		
 	<div class="fh5co-loader"></div>
     
@@ -87,7 +144,7 @@
                     <div class="display-t">
                         <div class="display-tc animate-box" data-animate-effect="fadeIn">
                             <h1>Shaun &amp; Ualwela</h1>
-                            <h2>We Are Getting Married</h2>
+                            <h2>Are Getting Married</h2>
                             <div class="simply-countdown simply-countdown-one"></div>
                             <!-- Updated button to instantly scroll guests down to the RSVP form -->
                             <p><a href="#fh5co-started" class="btn btn-default btn-sm">RSVP Now</a></p>
@@ -346,6 +403,7 @@
                 <p>We are so excited to celebrate with you in Limpopo. Here are all the details you need for directions and gifting.</p>
             </div>
         </div>
+		
 
         <!-- Added display: flex and align-items: stretch to lock both boxes to the exact same height -->
         <div class="row" style="display: flex; flex-wrap: wrap; align-items: stretch;">
