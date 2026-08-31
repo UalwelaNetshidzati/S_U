@@ -449,7 +449,7 @@
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
 					<h2>Are You Attending?</h2>
-					<p>Please Fill-up the form to notify you that you're attending. Thanks.</p>
+					<p>Please Fill-up the form to notify us of your attendance status. Thanks.</p>
 				</div>
 			</div>
 			<div class="row animate-box">
@@ -475,19 +475,20 @@
         </div>
     </div>
 
-    <!-- Simplified Plus One Dropdown -->
+    <!-- Attendance Type Dropdown including Not Attending -->
     <div class="col-md-3 col-sm-3">
         <div class="form-group">
             <label for="guests" class="sr-only">Attendance Type</label>
             <select class="form-control" id="guests" name="guests" style="color: #000; background: rgba(255, 255, 255, 0.9);">
                 <option value="1">Attending Alone (1)</option>
                 <option value="2">Attending with Plus One (2)</option>
+                <option value="0">Not Attending (Regrets)</option>
             </select>
         </div>
     </div>
 
     <div class="col-md-3 col-sm-3">
-        <button type="submit" class="btn btn-default btn-block">I am Attending</button>
+        <button type="submit" class="btn btn-default btn-block">Submit Response</button>
     </div>
 </form>
 
@@ -511,9 +512,17 @@
             var guestCount = document.getElementById('guests').value;
             var waNumber = "27760877877"; 
             
-            // Includes whether they are alone or bringing a plus one in the WhatsApp message text
-            var attendanceType = (guestCount === "2") ? "Attending with a Plus One (2 people)" : "Attending Alone (1 person)";
-            var waMessage = "Hi Shaun & Ualwela! We are so excited. I am confirming my attendance! Name: " + guestName + " | " + attendanceType;
+            // Tailors the WhatsApp message dynamically based on whether they are coming or sending regrets
+            var attendanceType = "";
+            if (guestCount === "2") {
+                attendanceType = "Attending with a Plus One (2 people)";
+            } else if (guestCount === "1") {
+                attendanceType = "Attending Alone (1 person)";
+            } else {
+                attendanceType = "Unable to attend";
+            }
+
+            var waMessage = "Hi Shaun & Ualwela! Response update -> Name: " + guestName + " | Status: " + attendanceType;
             
             window.location.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(waMessage);
             
