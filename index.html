@@ -54,8 +54,9 @@
 	<body>
 
 		<!-- Background Music Audio File -->
+<!-- Background Music Audio File -->
 <audio id="wedding-music" loop>
-    <source src="wedding-song.mpeg" type="audio/mpeg">
+    <source src="music/wedding-song.mp3" type="audio/mpeg">
 </audio>
 
 <!-- Floating Music Button (Nude Theme) -->
@@ -63,40 +64,177 @@
     <span id="music-icon" style="font-size: 22px; line-height: 1;">🎵</span>
 </div>
 
-<!-- Welcome Pop-Up Overlay (Nude & Gold Theme) -->
-<div id="welcome-popup" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-    <div style="background: rgba(255, 255, 255, 0.95); padding: 40px 30px; text-align: center; border-radius: 8px; max-width: 90%; width: 400px; box-shadow: 0px 10px 30px rgba(0,0,0,0.5); border: 2px solid #d4af37;">
-        <h3 style="font-family: 'Sacramento', Arial, serif; color: #c49a7a; font-size: 42px; margin-bottom: 10px; margin-top: 0;">Welcome!</h3>
-        <p style="color: #555; margin-bottom: 25px; font-size: 16px;">We are so excited to celebrate our special day with you.</p>
-        <button onclick="enterSite()" style="background: #c49a7a; color: #fff; border: none; padding: 12px 30px; border-radius: 30px; font-size: 16px; cursor: pointer; transition: 0.3s; width: 100%;">Click to Continue</button>
+
+<style>
+    #envelope-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        /* Upgraded: Rich, warm, glowing radial background */
+        background: radial-gradient(circle at center, #4a3b32 0%, #1a1512 100%);
+        z-index: 9999; 
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        transition: opacity 0.8s ease;
+        overflow: hidden;
+    }
+    
+    
+    .gold-dust {
+        position: absolute;
+        background: #d4af37;
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: float-dust 4s infinite ease-in-out alternate;
+    }
+    @keyframes float-dust {
+        0% { transform: translateY(0px) scale(1); opacity: 0.3; }
+        100% { transform: translateY(-20px) scale(1.5); opacity: 0.8; box-shadow: 0 0 10px #d4af37; }
+    }
+
+    .envelope-wrapper {
+        position: relative; width: 320px; height: 210px; 
+        background-color: #e3d9cd; 
+        cursor: pointer; perspective: 1200px;
+        /* Upgraded: Soft gold aura behind the envelope */
+        box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 40px rgba(212, 175, 55, 0.15);
+        transition: transform 0.3s;
+    }
+    .envelope-wrapper:hover {
+        transform: translateY(-5px);
+    }
+    
+    .env-flap {
+        position: absolute; top: 0; left: 0;
+        border-left: 160px solid transparent; border-right: 160px solid transparent;
+        border-top: 120px solid #f9f6f0; 
+        transform-origin: top; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 5;
+        filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.25));
+    }
+    
+    .wax-seal {
+        position: absolute;
+        top: -25px; left: -25px;
+        width: 50px; height: 50px;
+        background: radial-gradient(circle, #e6c56b 0%, #d4af37 40%, #9a7648 100%);
+        border-radius: 50%;
+        border: 2px solid #b78a6a;
+        display: flex; align-items: center; justify-content: center;
+        /* Upgraded: Pulsing gold glow to invite the click */
+        animation: pulse-seal 2s infinite;
+    }
+    @keyframes pulse-seal {
+        0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6), inset 0 0 5px rgba(255,255,255,0.4); }
+        70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0), inset 0 0 5px rgba(255,255,255,0.4); }
+        100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0), inset 0 0 5px rgba(255,255,255,0.4); }
+    }
+    
+    .wax-seal::after {
+        content: 'S&U'; 
+        font-family: 'Sacramento', Arial, serif;
+        color: #4a3424;
+        font-size: 22px;
+        font-weight: bold;
+        text-shadow: 1px 1px 1px rgba(255,255,255,0.4);
+    }
+    
+    .env-bottom {
+        position: absolute; bottom: 0; left: 0;
+        border-left: 160px solid transparent; border-right: 160px solid transparent;
+        border-bottom: 110px solid #f2ece4; 
+        z-index: 4;
+    }
+    .env-left {
+        position: absolute; top: 0; left: 0;
+        border-top: 105px solid transparent; border-bottom: 105px solid transparent;
+        border-left: 160px solid #ece4d8; 
+        z-index: 3;
+    }
+    .env-right {
+        position: absolute; top: 0; right: 0;
+        border-top: 105px solid transparent; border-bottom: 105px solid transparent;
+        border-right: 160px solid #ece4d8; 
+        z-index: 3;
+    }
+    
+    /* Upgraded: The inner letter now has a double gold border and luxury styling */
+    .env-letter {
+        position: absolute; top: 10px; left: 10px; width: 300px; height: 190px;
+        background: #fffdfa; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        border: 2px solid #d4af37;
+        outline: 1px solid #d4af37;
+        outline-offset: -6px;
+        box-shadow: inset 0 0 20px rgba(196, 154, 122, 0.1);
+    }
+    
+    .open-envelope .env-flap {
+        transform: rotateX(180deg);
+        z-index: 1; 
+    }
+    .open-envelope .env-letter {
+        transition: transform 0.6s ease 0.3s;
+        transform: translateY(-40px); 
+    }
+</style>
+
+
+<div id="envelope-overlay">
+    <!-- Magical Gold Dust Particles -->
+    <div class="gold-dust" style="width: 4px; height: 4px; top: 20%; left: 30%; animation-delay: 0s;"></div>
+    <div class="gold-dust" style="width: 6px; height: 6px; top: 35%; left: 75%; animation-delay: 1s;"></div>
+    <div class="gold-dust" style="width: 3px; height: 3px; top: 70%; left: 20%; animation-delay: 2s;"></div>
+    <div class="gold-dust" style="width: 5px; height: 5px; top: 60%; left: 80%; animation-delay: 0.5s;"></div>
+    <div class="gold-dust" style="width: 4px; height: 4px; top: 15%; left: 65%; animation-delay: 1.5s;"></div>
+
+    <p style="margin-bottom: 40px; color: #d4af37; font-family: 'Sacramento', Arial, serif; font-size: 65px; margin-top: 0; text-shadow: 0px 4px 15px rgba(212, 175, 55, 0.3);">You're Invited...</p>
+    
+    <div id="envelope-container" class="envelope-wrapper" onclick="openEnvelope()">
+        <div class="env-flap">
+            <div class="wax-seal"></div>
+        </div>
+        <div class="env-left"></div>
+        <div class="env-right"></div>
+        <div class="env-bottom"></div>
+        
+     
+        <div class="env-letter">
+            <span style="font-family: 'Sacramento', Arial, serif; font-size: 44px; color: #d4af37; margin-bottom: 2px;">S & U</span>
+            <span style="font-family: 'Work Sans', Arial, sans-serif; font-size: 11px; color: #c49a7a; letter-spacing: 3px; font-weight: 600;">WE ARE GETTING MARRIED</span>
+        </div>
     </div>
+    
+    <p style="margin-top: 60px; color: #e3d9cd; font-size: 13px; text-transform: uppercase; letter-spacing: 4px; animation: float-dust 3s infinite alternate;">Tap the seal to open</p>
 </div>
 
-<!-- JavaScript to handle Pop-Up and Audio -->
+
 <script>
     var weddingAudio = document.getElementById("wedding-music");
     var musicIcon = document.getElementById("music-icon");
-    var welcomePopup = document.getElementById("welcome-popup");
+    var envelopeOverlay = document.getElementById("envelope-overlay");
+    var envelopeContainer = document.getElementById("envelope-container");
     var isPlaying = false;
 
-    // Disables scrolling while the pop-up is active
     document.body.style.overflow = 'hidden';
 
-    function enterSite() {
-        // Hide the pop-up and restore scrolling
-        welcomePopup.style.display = 'none';
-        document.body.style.overflow = 'auto';
-
-        // Play the music immediately
+    function openEnvelope() {
+        envelopeContainer.classList.add("open-envelope");
+        
         weddingAudio.play().then(() => {
             isPlaying = true;
-            musicIcon.innerHTML = "⏸️"; // Switch to pause icon
+            musicIcon.innerHTML = "⏸️"; 
         }).catch(error => {
             console.log("Audio play failed:", error);
         });
+
+       
+        setTimeout(function() {
+            envelopeOverlay.style.opacity = '0';
+            
+            setTimeout(function() {
+                envelopeOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 800);
+        }, 1200); 
     }
 
-    // Manual toggle for the floating button in the corner
     function toggleMusic() {
         if (isPlaying) {
             weddingAudio.pause();
@@ -117,18 +255,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-2">
-    <!-- Replace A & J with your actual initials -->
+    
     <div id="fh5co-logo"><a href="index.html">S & U<strong>.</strong></a></div>
 </div>
                 <div class="col-xs-10 text-right menu-1">
                     <ul>
                         <li class="active"><a href="index.html">Home</a></li>
                         <li><a href="#fh5co-couple-story">Story</a></li>
-                        <!-- Removed the dummy Services dropdown entirely -->
-                        
-                        <!-- Cleaned up Gallery link (no dropdowns) -->
+                       
                         <li><a href="#fh5co-gallery">Gallery</a></li>
-                        <!-- Changed "Contact" to "RSVP" and linked it to the form section -->
+                        
                         <li><a href="#fh5co-started">RSVP</a></li>
                     </ul>
                 </div>
@@ -146,7 +282,7 @@
                             <h1>Shaun &amp; Ualwela</h1>
                             <h2>Are Getting Married</h2>
                             <div class="simply-countdown simply-countdown-one"></div>
-                            <!-- Updated button to instantly scroll guests down to the RSVP form -->
+                           
                             <p><a href="#fh5co-started" class="btn btn-default btn-sm">RSVP Now</a></p>
                         </div>
                     </div>
@@ -162,10 +298,7 @@
                 <h2>Hello!</h2>
                 <h3>November 28th, 2026 &mdash; Limpopo, SA</h3>
                 
-                <!-- Added Time and Nude Theme -->
-                <h4 style="color: #c49a7a; font-size: 18px; font-weight: 600; margin-bottom: 20px;">
-                    <strong>Time:</strong> 10:00 AM &nbsp;|&nbsp; <strong>Theme:</strong> Nude &amp; <span style="color: #d4af37;">Touch of Gold</span>
-                </h4>
+                
                 
                 <p>We invite you to celebrate our wedding with us.</p>
             </div>
@@ -174,7 +307,7 @@
             <!-- Groom Side -->
             <div class="couple-half">
                 <div class="groom">
-                    <!-- Change .jpeg to .jpg if your file is a standard jpg -->
+                 
                     <img src="images/groom.jpeg" alt="Shaun Tivani" class="img-responsive">
                 </div>
                 <div class="desc-groom">
@@ -201,51 +334,50 @@
 </div>
 
 	<div id="fh5co-event" class="fh5co-bg" style="background-image:url(images/img_bg_3.jpeg);">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
-                    <span>Our Special Events</span>
-                    <h2>Wedding Events</h2>
-                </div>
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+                <span>Our Special Events</span>
+                <h2>Wedding Events</h2>
             </div>
-            <div class="row">
-                <div class="display-t">
-                    <div class="display-tc">
-                        <div class="col-md-10 col-md-offset-1">
-                            <!-- Event 1: Bride's Home -->
-                            <div class="col-md-6 col-sm-6 text-center">
-                                <div class="event-wrap animate-box">
-                                    <h3>Wedding &amp; Blessing</h3>
-                                    <div class="event-col">
-                                        <i class="icon-clock"></i>
-                                        <span>Ceremony</span>
-                                        <span>&amp; Celebration</span>
-                                    </div>
-                                    <div class="event-col">
-                                        <i class="icon-calendar"></i>
-                                        <span>Saturday 28</span>
-                                        <span>November, 2026</span>
-                                    </div>
-                                    <p>Join us for Our Wedding Day, hosted at the bride's home in Limpopo. We look forward to sharing this joyful day with you.</p>
+        </div>
+        <div class="row">
+            <div class="display-t">
+                <div class="display-tc">
+                    <div class="col-md-10 col-md-offset-1">
+                        <!-- Event 1: Bride's Home -->
+                        <div class="col-md-6 col-sm-6 text-center">
+                            <div class="event-wrap animate-box">
+                                <h3>Our Wedding Day</h3>
+                                <div class="event-col">
+                                    <i class="icon-clock"></i>
+                                    <span>10:00 AM</span>
+                                    <span>Start</span>
                                 </div>
+                                <div class="event-col">
+                                    <i class="icon-calendar"></i>
+                                    <span>Saturday 28</span>
+                                    <span>November, 2026</span>
+                                </div>
+                                <p><strong>Theme: Elegant Nude &amp; Touch of Gold</strong><br><br>Join us for Our Wedding Day, hosted at the bride's home in Limpopo. We look forward to sharing this joyful day with you.</p>
                             </div>
-                            <!-- Event 2: Groom's Side / Makoti Welcoming -->
-                            <div class="col-md-6 col-sm-6 text-center">
-                                <div class="event-wrap animate-box">
-                                    <h3>Welcoming of Makoti</h3>
-                                    <div class="event-col">
-                                        <i class="icon-clock"></i>
-                                        <span>Family &amp;</span>
-                                        <span>Festivities</span>
-                                    </div>
-                                    <div class="event-col">
-                                        <i class="icon-calendar"></i>
-                                        <span>Sunday 29</span>
-                                        <span>November, 2026</span>
-                                    </div>
-                                    <p>The celebrations continue on Sunday as we welcome our makoti at the groom's home with family, traditional food, and celebration.</p>
+                        </div>
+                        <!-- Event 2: Groom's Side / Makoti Welcoming -->
+                        <div class="col-md-6 col-sm-6 text-center">
+                            <div class="event-wrap animate-box">
+                                <h3>Welcoming of Makoti</h3>
+                                <div class="event-col">
+                                    <i class="icon-clock"></i>
+                                    <span>11:00 AM</span>
+                                    <span>Start</span>
                                 </div>
+                                <div class="event-col">
+                                    <i class="icon-calendar"></i>
+                                    <span>Sunday 29</span>
+                                    <span>November, 2026</span>
+                                </div>
+                                <p><strong>Theme: Traditional Wear</strong><br><br>The celebrations continue on Sunday as we welcome our makoti at the groom's home with family, traditional food, and celebration.</p>
                             </div>
                         </div>
                     </div>
@@ -253,6 +385,7 @@
             </div>
         </div>
     </div>
+</div>
 	
 	<div id="fh5co-couple-story">
         <div class="container">
@@ -360,7 +493,7 @@
     </div>
 </form>
 
-<!-- JavaScript to send data to dashboard FIRST, then open WhatsApp -->
+
 <script>
     document.getElementById('rsvp-form').addEventListener('submit', function(event) {
         event.preventDefault(); 
@@ -380,7 +513,7 @@
             var guestCount = document.getElementById('guests').value;
             var waNumber = "27760877877"; 
             
-            // Includes whether they are alone or bringing a plus one in the WhatsApp message text
+            
             var attendanceType = (guestCount === "2") ? "Attending with a Plus One (2 people)" : "Attending Alone (1 person)";
             var waMessage = "Hi Shaun & Ualwela! We are so excited. I am confirming my attendance! Name: " + guestName + " | " + attendanceType;
             
@@ -405,9 +538,9 @@
         </div>
 		
 
-        <!-- Added display: flex and align-items: stretch to lock both boxes to the exact same height -->
+        
         <div class="row" style="display: flex; flex-wrap: wrap; align-items: stretch;">
-            <!-- Left Column: Venue Map -->
+          
             <div class="col-md-6 col-sm-6" style="display: flex; flex-direction: column;">
                 <div class="event-wrap animate-box" style="background: #fff; padding: 30px; margin-bottom: 30px; border-radius: 4px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
@@ -433,7 +566,7 @@
                 </div>
             </div>
 
-            <!-- Right Column: Animated Gift Box QR Code -->
+            
             <div class="col-md-6 col-sm-6" style="display: flex; flex-direction: column;">
     <div class="event-wrap animate-box text-center" style="background: #fff; padding: 30px; margin-bottom: 30px; border-radius: 4px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
         <div>
@@ -462,7 +595,7 @@
 			<div class="row copyright">
 				<div class="col-md-12 text-center">
 					<p>
-    <!-- Updated copyright year to 2026 and added your names -->
+    
     <small class="block">&copy; 2026 Shaun &amp; Ualwela. All Rights Reserved.</small> 
     <small class="block">Design by <a href="http://freehl5.co/" target="_blank">S&U</a></small>
 </p>
@@ -504,21 +637,21 @@
 	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/magnific-popup-options.js"></script>
 
-	<!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script> -->
+	
 	<script src="js/simplyCountdown.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
 
 	<script>
-    // 1. Set your exact wedding date and time here (Month DD, YYYY HH:MM:SS)
+    
     var d = new Date("November 28, 2026 10:00:00");
 
-    // 2. This connects to the visual countdown on the page
+    
     simplyCountdown('.simply-countdown-one', {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
         day: d.getDate(),
-        enableUtc: false // Set to true if you want it to ignore local time zones
+        enableUtc: false 
     });
 </script>
 
