@@ -56,7 +56,7 @@
 		<!-- Background Music Audio File -->
 <!-- Background Music Audio File -->
 <audio id="wedding-music" loop>
-    <source src="wedding-song.mpeg" type="audio/mpeg">
+    <source src="music/wedding-song.mp3" type="audio/mpeg">
 </audio>
 
 <!-- Floating Music Button (Nude Theme) -->
@@ -64,7 +64,7 @@
     <span id="music-icon" style="font-size: 22px; line-height: 1;">🎵</span>
 </div>
 
-
+<!-- Custom CSS for the Decorated Cream & Gold Envelope -->
 <style>
     #envelope-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -76,7 +76,7 @@
         overflow: hidden;
     }
     
-    
+    /* Floating Gold Dust Particles */
     .gold-dust {
         position: absolute;
         background: #d4af37;
@@ -171,11 +171,11 @@
     }
     .open-envelope .env-letter {
         transition: transform 0.6s ease 0.3s;
-        transform: translateY(-40px); 
+        transform: translateY(-40px); /* Makes the card peek out slightly when opened */
     }
 </style>
 
-
+<!-- Envelope Overlay UI -->
 <div id="envelope-overlay">
     <!-- Magical Gold Dust Particles -->
     <div class="gold-dust" style="width: 4px; height: 4px; top: 20%; left: 30%; animation-delay: 0s;"></div>
@@ -194,7 +194,7 @@
         <div class="env-right"></div>
         <div class="env-bottom"></div>
         
-     
+        <!-- The beautiful card inside -->
         <div class="env-letter">
             <span style="font-family: 'Sacramento', Arial, serif; font-size: 44px; color: #d4af37; margin-bottom: 2px;">S & U</span>
             <span style="font-family: 'Work Sans', Arial, sans-serif; font-size: 11px; color: #c49a7a; letter-spacing: 3px; font-weight: 600;">WE ARE GETTING MARRIED</span>
@@ -204,7 +204,7 @@
     <p style="margin-top: 60px; color: #e3d9cd; font-size: 13px; text-transform: uppercase; letter-spacing: 4px; animation: float-dust 3s infinite alternate;">Tap the seal to open</p>
 </div>
 
-
+<!-- JavaScript to handle Envelope Animation and Audio -->
 <script>
     var weddingAudio = document.getElementById("wedding-music");
     var musicIcon = document.getElementById("music-icon");
@@ -224,7 +224,7 @@
             console.log("Audio play failed:", error);
         });
 
-       
+        // Wait slightly longer so they can admire the card popping up, then fade away
         setTimeout(function() {
             envelopeOverlay.style.opacity = '0';
             
@@ -262,7 +262,7 @@
                     <ul>
                         <li class="active"><a href="index.html">Home</a></li>
                         <li><a href="#fh5co-couple-story">Story</a></li>
-                       
+                        
                         
                         <li><a href="#fh5co-started">RSVP</a></li>
                     </ul>
@@ -281,7 +281,7 @@
                             <h1>Shaun &amp; Ualwela</h1>
                             <h2>Are Getting Married</h2>
                             <div class="simply-countdown simply-countdown-one"></div>
-                           
+                            <!-- Updated button to instantly scroll guests down to the RSVP form -->
                             <p><a href="#fh5co-started" class="btn btn-default btn-sm">RSVP Now</a></p>
                         </div>
                     </div>
@@ -306,7 +306,7 @@
             <!-- Groom Side -->
             <div class="couple-half">
                 <div class="groom">
-                 
+                    <!-- Change .jpeg to .jpg if your file is a standard jpg -->
                     <img src="images/groom.jpeg" alt="Shaun Tivani" class="img-responsive">
                 </div>
                 <div class="desc-groom">
@@ -345,7 +345,7 @@
             <div class="display-t">
                 <div class="display-tc">
                     <div class="col-md-10 col-md-offset-1">
-                        <!-- Event 1: Bride's Home -->
+                        
                         <div class="col-md-6 col-sm-6 text-center">
     <div class="event-wrap animate-box">
         <h3>Our Wedding Day</h3>
@@ -362,15 +362,7 @@
         <p><strong>Theme: Elegant <span style="color: #c49a7a; display: inline;">Nude</span> &amp; Touch of <span style="color: #d4af37; display: inline;">Gold</span></strong><br><br>Join us for Our Wedding Day, hosted at the bride's home in Limpopo. We look forward to sharing this joyful day with you.</p>
     </div>
 </div>
-                                <div class="event-col">
-                                    <i class="icon-calendar"></i>
-                                    <span>Saturday 28</span>
-                                    <span>November, 2026</span>
-                                </div>
-                                <p><strong>Theme: Elegant Nude &amp; Touch of Gold</strong><br><br>Join us for Our Wedding Day, hosted at the bride's home in Limpopo. We look forward to sharing this joyful day with you.</p>
-                            </div>
-                        </div>
-                        <!-- Event 2: Groom's Side / Makoti Welcoming -->
+                        
                         <div class="col-md-6 col-sm-6 text-center">
                             <div class="event-wrap animate-box">
                                 <h3>Welcoming of Makoti</h3>
@@ -500,7 +492,7 @@
     </div>
 </form>
 
-
+<!-- JavaScript to send data to dashboard FIRST, then open WhatsApp -->
 <script>
     document.getElementById('rsvp-form').addEventListener('submit', function(event) {
         event.preventDefault(); 
@@ -520,7 +512,7 @@
             var guestCount = document.getElementById('guests').value;
             var waNumber = "27760877877"; 
             
-            
+            // Includes whether they are alone or bringing a plus one in the WhatsApp message text
             var attendanceType = (guestCount === "2") ? "Attending with a Plus One (2 people)" : "Attending Alone (1 person)";
             var waMessage = "Hi Shaun & Ualwela! We are so excited. I am confirming my attendance! Name: " + guestName + " | " + attendanceType;
             
@@ -545,9 +537,9 @@
         </div>
 		
 
-        
+        <!-- Added display: flex and align-items: stretch to lock both boxes to the exact same height -->
         <div class="row" style="display: flex; flex-wrap: wrap; align-items: stretch;">
-          
+           
             <div class="col-md-6 col-sm-6" style="display: flex; flex-direction: column;">
                 <div class="event-wrap animate-box" style="background: #fff; padding: 30px; margin-bottom: 30px; border-radius: 4px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
@@ -573,7 +565,7 @@
                 </div>
             </div>
 
-            
+            <!-- Right Column: Animated Gift Box QR Code -->
             <div class="col-md-6 col-sm-6" style="display: flex; flex-direction: column;">
     <div class="event-wrap animate-box text-center" style="background: #fff; padding: 30px; margin-bottom: 30px; border-radius: 4px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
         <div>
@@ -602,7 +594,7 @@
 			<div class="row copyright">
 				<div class="col-md-12 text-center">
 					<p>
-    
+    <!-- Updated copyright year to 2026 and added your names -->
     <small class="block">&copy; 2026 Shaun &amp; Ualwela. All Rights Reserved.</small> 
     <small class="block">Design by <a href="http://freehl5.co/" target="_blank">S&U</a></small>
 </p>
@@ -644,21 +636,21 @@
 	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/magnific-popup-options.js"></script>
 
-	
+	<!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script> -->
 	<script src="js/simplyCountdown.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
 
 	<script>
-    
+    // 1. Set your exact wedding date and time here (Month DD, YYYY HH:MM:SS)
     var d = new Date("November 28, 2026 10:00:00");
 
-    
+    // 2. This connects to the visual countdown on the page
     simplyCountdown('.simply-countdown-one', {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
         day: d.getDate(),
-        enableUtc: false 
+        enableUtc: false // Set to true if you want it to ignore local time zones
     });
 </script>
 
